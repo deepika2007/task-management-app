@@ -69,8 +69,8 @@ const TaskForm = ({ initialValues, editMode, onClose, open }) => {
                             error={touched.deadline && !!errors.deadline}
                             helperText={touched.deadline && errors.deadline}
                             margin="normal"
-                            minDate={new Date()}
-                            maxDate={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)}
+                            min={new Date()}
+                            max={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)}
                         />
                         <Field
                             size='small'

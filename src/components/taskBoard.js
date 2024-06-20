@@ -9,16 +9,16 @@ import { updateTask } from '../redux/actions';
 
 const TaskBoard = ({ status, title }) => {
   const dispatch = useDispatch()
-  const tasks = useSelector((state) => state?.tasks?.tasks.filter(task => task.status === status));
+  const tasks = useSelector((state) => state?.tasks?.tasks);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editTask, setEditTask] = useState(null);
 
   const [, drop] = useDrop({
-    accept: 'TODO',
+    accept: 'TASK',
     drop: (item, a) => {
-      const findTask = tasks?.find((task) => task?.id !== item?.id)
+      const findTask = tasks?.find((task) => task?.id === item?.id)
       if (findTask) {
-        dispatch(updateTask({ ...findTask, status: item.status }));
+        dispatch(updateTask({ ...findTask, status: status }));
       }
     }
   });
@@ -35,7 +35,7 @@ const TaskBoard = ({ status, title }) => {
   return (
     <Box ref={drop} sx={{ width: '30%', padding: '10px', backgroundColor: '#e1dddb', borderRadius: '3px', height: 'fit-content' }}>
       <Typography variant="h6" gutterBottom>{title}</Typography>
-      {tasks.map(task => (
+      {tasks.filter((task) => task.status === status).map(task => (
         <TaskCard key={task.id} task={task} onEdit={handleEditTask} />
       ))}
       <Typography style={{ color: "#a3a3a3", cursor: 'pointer' }} onClick={() => handleAddTask()}>Add a card...</Typography>

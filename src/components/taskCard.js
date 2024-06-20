@@ -12,24 +12,20 @@ const TaskCard = ({ task, onEdit }) => {
 
     const [{ isDragging }, drag] = useDrag({
         type: 'TASK',
-        item: { id: task.id },
+        item: { id: task.id, status: task.status },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()
         })
     });
 
     const [, drop] = useDrop({
-        accept: 'TODO',
-        drop: (item) => {
-            if (item.id !== task.id) {
-                dispatch(updateTask(item.id, task.status));
-            }
-        }
+        accept: 'TASK',
+        drop: (item) => {}
     });
     drag(drop(ref));
     return (
         <Card ref={ref}
-            style={{ opacity: isDragging ? 0.9 : 1, marginBottom: '10px' }}
+            style={{ opacity: isDragging ? 0.5 : 1, marginBottom: '10px' }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
         >
